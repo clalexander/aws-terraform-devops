@@ -1,0 +1,29 @@
+#!/bin/bash
+set -e
+
+parent_path=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
+
+source $parent_path/utils
+
+# verify parameters
+if [[ -z "$AWS_ACCOUNT" ]]; then
+  fail "Error missing AWS_ACCOUNT environment variable!"
+fi
+if [ -z "$TFKEY_APPLICATION" ] && [ -z "$TFKEY_BASELINE" ]; then
+  fail "Error you must specify either TFKEY_APPLICATION or TFKEY_BASELINE environment variable!"
+fi
+if [[ -z "$TFKEY_ENVIRONMENT" ]]; then
+  fail "Error missing TFKEY_ENVIRONMENT environment variable!"
+fi
+
+if [[ -z "$TFKEY_APPLICATION" ]]; then
+  keypath="baseline/$TFKEY_BASELINE"
+else
+  keypath="application/$TFKEY_APPLICATION"
+fi
+
+# build state key
+statekey="aws/$TFKEY_ENVIRONMENT/$AWS_ACCOUNT/$keypath"
+
+# return state key
+echo $statekey
