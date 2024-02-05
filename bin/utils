@@ -1,0 +1,8 @@
+#!/bin/bash
+set -e
+
+# fail with message helper function
+function fail {
+  printf '%s\n' "$1" >&2
+  exit "${2-1}"
+}

@@ -1,0 +1,14 @@
+name: Bin Setup
+description: Add bin directory to path
+
+
+runs:
+  using: composite
+  steps:
+    - name: Add Bin Directory to Path
+      shell: bash
+      run: |
+        BASE_PATH=$(realpath "${{ github.action_path }}/../../")
+        BIN_PATH=$BASE_PATH/bin
+        chmod +x $BIN_PATH/*
+        echo "PATH=$PATH:$BIN_PATH" >> $GITHUB_ENV

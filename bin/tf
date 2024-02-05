@@ -1,0 +1,31 @@
+#!/bin/bash
+set -e
+
+parent_path=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
+
+# load vars
+source $parent_path/tfprovidervars
+
+COMMAND=$1
+shift
+
+PARAMS=$@
+OPTIONS=()
+
+case $COMMAND in
+  # add backend config to init command
+  init)
+    OPTIONS+=(
+      -backend-config="access_key=$REMOTE_STATE_ACCESS_KEY"
+      -backend-config="secret_key=$REMOTE_STATE_SECRET_KEY"
+      -backend-config="region=$REMOTE_STATE_REGION"
+      -backend-config="bucket=$REMOTE_STATE_BUCKET"
+      -backend-config="key=$remote_state_key"
+      -backend-config="dynamodb_table=$REMOTE_STATE_LOCK_TABLE"
+    )
+    ;;
+esac
+
+# execute command
+echo "terraform $COMMAND"
+terraform $COMMAND ${OPTIONS[@]} ${PARAMS[@]}

@@ -1,0 +1,40 @@
+#!/bin/bash
+set -e
+
+parent_path=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
+
+# load vars
+source $parent_path/utils
+
+# validate required variables
+if [[ -z "$CODEARTIFACT_DOMAIN" ]]; then
+  fail "Error missing CODEARTIFACT_DOMAIN variable!"
+fi
+if [[ -z "$CODEARTIFACT_NAMESPACE" ]]; then
+  fail "Error missing CODEARTIFACT_NAMESPACE variable!"
+fi
+if [[ -z "$CODEARTIFACT_REPOSITORY" ]]; then
+  fail "Error missing CODEARTIFACT_REPOSITORY variable!"
+fi
+if [[ -z "$CODEARTIFACT_REGION" ]]; then
+  fail "Error missing CODEARTIFACT_REGION variable!"
+fi
+
+# build login args
+login_args=(
+  --tool npm
+  --domain $CODEARTIFACT_DOMAIN
+  --namespace $CODEARTIFACT_NAMESPACE
+  --repository $CODEARTIFACT_REPOSITORY
+  --region $CODEARTIFACT_REGION
+)
+
+# add profile if set
+if [[ ! -z "$CODEARTIFACT_PROFILE" ]]; then
+  echo "using profile $CODEARTIFACT_PROFILE"
+  login_args+=(--profile $CODEARTIFACT_PROFILE)
+fi
+
+# codeartifact login
+echo "aws codeartifact login ${login_args[@]}"
+aws codeartifact login ${login_args[@]}
