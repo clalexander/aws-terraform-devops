@@ -1,0 +1,35 @@
+name: Autoload Terraform Variables
+description: Autoload Terraform variables in the environment
+
+
+inputs:
+  vars:
+    description: Vars context value
+    required: false
+  secrets:
+    description: Secrets context value
+    required: false
+  prefix:
+    description: Prefix for environment variables
+    required: false
+    default: TF_VAR_
+
+
+runs:
+  using: composite
+  steps:
+    - name: Add Variables to Environment
+      shell: bash
+      if: ${{ inputs.vars != '' && inputs.vars != 'null' }}
+      run: |
+        echo '${{ inputs.vars }}' | jq -r --arg prefix ${{ inputs.prefix }} 'to_entries
+          | map(select(.key | startswith($prefix)) | "\($prefix + (.key | ltrimstr($prefix) | ascii_downcase))=\(.value)")
+          | .[]' >> $GITHUB_ENV
+
+    - name: Add Secrets to Environment
+      shell: bash
+      if: ${{ inputs.secrets != '' && inputs.secrets != 'null' }}
+      run: |
+        echo '${{ inputs.secrets }}' | jq -r --arg prefix ${{ inputs.prefix }} 'to_entries
+          | map(select(.key | startswith($prefix)) | "\($prefix + (.key | ltrimstr($prefix) | ascii_downcase))=\(.value)")
+          | .[]' >> $GITHUB_ENV

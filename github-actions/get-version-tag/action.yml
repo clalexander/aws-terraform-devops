@@ -1,0 +1,16 @@
+name: Get Version Tag
+description: Gets the version tag from the repository.
+
+outputs:
+  version-tag:
+    description: The version tag.
+    value: ${{ steps.get-version-tag.outputs.VERSION_TAG }}
+
+runs:
+  using: composite
+  steps:
+    - id: get-version-tag
+      shell: bash
+      run: |
+        echo "Getting version tag..."
+        echo "VERSION_TAG=$(git describe --tags --match=v[0-9].* --abbrev=0)" >> $GITHUB_OUTPUT

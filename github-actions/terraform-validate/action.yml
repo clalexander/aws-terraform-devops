@@ -1,0 +1,95 @@
+name: Terraform Validate
+description: Validates a Terraform configuration.
+
+
+inputs:
+  terraform-version: 
+    description: The version of Terraform to use.
+    required: false
+    default: ">= 1.5"
+  working-directory:
+    description: The working directory where the Terraform configuration is located.
+    required: false
+    default: ./terraform
+  aws-account:
+    description: The AWS account to which deploy the resources.
+    required: true
+  aws-region:
+    description: The AWS region to which deploy the resources.
+    required: true
+  aws-access-key-id:
+    description: The AWS access key id to use.
+    required: true
+  aws-secret-access-key:
+    description: The AWS secret access key to use.
+    required: true
+  remote-state-access-key:
+    description: The AWS access key id to use to access the remote state.
+    required: true
+  remote-state-secret-key:
+    description: The AWS secret access key to use to access the remote state.
+    required: true
+  remote-state-region:
+    description: The AWS region where the remote state is located.
+    required: true
+  remote-state-bucket:
+    description: The name of the S3 bucket to use to store the remote state.
+    required: true
+  remote-state-lock-table:
+    description: The name of the DynamoDB table to use to lock the remote state.
+    required: true
+  tfkey-environment:
+    description: The environment to use to generate the terraform key.
+    required: true
+  tfkey-application:
+    description: The application name to use to generate the terraform key.
+    required: false
+  tfkey-baseline:
+    description: The baseline name to use to generate the terraform key.
+    required: false
+  terraform-options:
+    description: The options to pass to the terraform command.
+    required: false
+    default: ""
+  terraform-init-options:
+    description: The options to pass to the terraform init command.
+    required: false
+    default: ""
+
+
+runs:
+  using: composite
+  steps:
+    - name: Symlink DevOps Actions
+      working-directory: ${{ github.action_path }}
+      shell: bash
+      run: ln -fs $(realpath ../) /home/runner/work/_actions/devops
+    
+    - name: Terraform Setup
+      uses: ./../../_actions/devops/tf-setup
+      with:
+        terraform-version: ${{ inputs.terraform-version }}
+        working-directory: ${{ inputs.working-directory }}
+        aws-account: ${{ inputs.aws-account }}
+        aws-region: ${{ inputs.aws-region }}
+        aws-access-key-id: ${{ inputs.aws-access-key-id }}
+        aws-secret-access-key: ${{ inputs.aws-secret-access-key }}
+        remote-state-access-key: ${{ inputs.remote-state-access-key }}
+        remote-state-secret-key: ${{ inputs.remote-state-secret-key }}
+        remote-state-region: ${{ inputs.remote-state-region }}
+        remote-state-bucket: ${{ inputs.remote-state-bucket }}
+        remote-state-lock-table: ${{ inputs.remote-state-lock-table }}
+        tfkey-environment: ${{ inputs.tfkey-environment }}
+        tfkey-application: ${{ inputs.tfkey-application }}
+        tfkey-baseline: ${{ inputs.tfkey-baseline }}
+        terraform-options: ${{ inputs.terraform-init-options }}
+
+    - name: Terraform Validate
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+      run: tf validate ${{ inputs.terraform-options }}
+
+    - name: Terraform Plan
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+      run: tf plan -input=false ${{ inputs.terraform-options }}
