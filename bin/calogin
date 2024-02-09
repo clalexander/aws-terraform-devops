@@ -5,9 +5,10 @@ parent_path=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
 
 # load vars
 source $parent_path/utils
+set_show_help show_calogin_help
 
 # show help
-function show_help {
+function show_calogin_help {
   echo "Wraps aws codeartifact login with defaults from environment variables"
   echo ""
   echo "Usage: calogin [options]"
@@ -30,11 +31,6 @@ function show_help {
   echo ""
   echo "  [-h | --help]                     Show this help message"
   echo ""
-}
-
-# fail with message helper function
-function fail_with_help {
-  fail "Error: $1" show_help
 }
 
 # process args
