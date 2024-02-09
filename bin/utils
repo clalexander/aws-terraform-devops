@@ -3,6 +3,40 @@ set -e
 
 # fail with message helper function
 function fail {
-  printf '%s\n' "$1" >&2
-  exit "${2-1}"
+  printf '%s\n\n' "$1" >&2
+  if [[ -n "$2" ]]; then
+    printf '%s\n\n' "$($2)" >&2
+  fi
+  exit 1
+}
+
+# show help helpers
+_show_help=""
+
+function set_show_help {
+  if [[ -z "$_show_help" ]]; then
+    _show_help=$1
+  fi
+}
+
+function get_show_help {
+  echo $_show_help
+}
+
+function show_help {
+  printf '%s\n\n' "$($_show_help)"
+}
+
+function fail_with_help {
+  fail "Error: $1" $_show_help
+}
+
+
+# jq helper function returning empty string if null
+function jqe {
+  value=$(jq -r $1 < /dev/stdin)
+  if [[ "$value" == "null" ]]; then
+    value=""
+  fi
+  echo $value
 }

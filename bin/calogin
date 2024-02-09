@@ -5,34 +5,107 @@ parent_path=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
 
 # load vars
 source $parent_path/utils
+set_show_help show_calogin_help
+
+# show help
+function show_calogin_help {
+  echo "Wraps aws codeartifact login with defaults from environment variables"
+  echo ""
+  echo "Usage: calogin [options]"
+  echo ""
+  echo "Options:"
+  echo "  [-d | --domain] <domain>          The domain to use for the login"
+  echo "                                    (Or use CODEARTIFACT_DOMAIN environment variable)"
+  echo "  [-n | --namespace] <namespace>    The namespace to use for the login"
+  echo "                                    (Or use CODEARTIFACT_NAMESPACE environment variable)"
+  echo "  [-R | --repository] <repository>  The repository to use for the login"
+  echo "                                    (Or use CODEARTIFACT_REPOSITORY environment variable)"
+  echo "  [-r | --region] <region>          The AWS region to use for the login, must"
+  echo "                                    be a valid AWS region"
+  echo "                                    (Or use CODEARTIFACT_REGION environment variable)"
+  echo "  [-t | --tool] <tool>              The tool to use for the login, must be a"
+  echo "                                    valid aws codeartifact tool"
+  echo "                                    (Or use CODEARTIFACT_TOOL environment variable)"
+  echo "  [-p | --profile] <profile>        The AWS profile to use for the login"
+  echo "                                    (Or use CODEARTIFACT_PROFILE environment variable)"
+  echo ""
+  echo "  [-h | --help]                     Show this help message"
+  echo ""
+}
+
+# process args
+while [[ $# -gt 0 ]]
+do
+  case $1 in
+    -d | --domain)
+      domain=$2
+      shift 2
+      ;;
+    -n | --namespace)
+      namespace=$2
+      shift 2
+      ;;
+    -R | --repository)
+      repository=$2
+      shift 2
+      ;;
+    -r | --region)
+      region=$2
+      shift 2
+      ;;
+    -p | --profile)
+      profile=$2
+      shift 2
+      ;;
+    -t | --tool)
+      tool=$2
+      shift 2
+      ;;
+    -h | --help)
+      show_help
+      exit 0
+      ;;
+    *)
+      fail_with_help "Unrecognized argument $1"
+      ;;
+  esac
+done
+
+# default to environment variables
+domain=${domain:-$CODEARTIFACT_DOMAIN}
+namespace=${namespace:-$CODEARTIFACT_NAMESPACE}
+repository=${repository:-$CODEARTIFACT_REPOSITORY}
+region=${region:-$CODEARTIFACT_REGION}
+profile=${profile:-$CODEARTIFACT_PROFILE}
+tool=${tool:-${CODEARTIFACT_TOOL:-npm}} # default to npm if not set
 
 # validate required variables
-if [[ -z "$CODEARTIFACT_DOMAIN" ]]; then
-  fail "Error missing CODEARTIFACT_DOMAIN variable!"
+if [[ -z "$domain" ]]; then
+  fail_with_help "Missing domain! Provide domain via -d|--domain or CODEARTIFACT_DOMAIN environment variable."
 fi
-if [[ -z "$CODEARTIFACT_NAMESPACE" ]]; then
-  fail "Error missing CODEARTIFACT_NAMESPACE variable!"
+if [[ -z "$namespace" ]]; then
+  fail_with_help "Missing namespace! Provide namespace via -n|--namespace or CODEARTIFACT_NAMESPACE environment variable."
 fi
-if [[ -z "$CODEARTIFACT_REPOSITORY" ]]; then
-  fail "Error missing CODEARTIFACT_REPOSITORY variable!"
+if [[ -z "$repository" ]]; then
+  fail_with_help "Missing repository! Provide repository via -R|--repository or CODEARTIFACT_REPOSITORY environment variable."
 fi
-if [[ -z "$CODEARTIFACT_REGION" ]]; then
-  fail "Error missing CODEARTIFACT_REGION variable!"
+if [[ -z "$region" ]]; then
+  fail_with_help "Missing region! Provide region via -r|--region or CODEARTIFACT_REGION environment variable."
 fi
 
 # build login args
 login_args=(
-  --tool npm
-  --domain $CODEARTIFACT_DOMAIN
-  --namespace $CODEARTIFACT_NAMESPACE
-  --repository $CODEARTIFACT_REPOSITORY
-  --region $CODEARTIFACT_REGION
+  --tool $tool
+  --domain $domain
+  --namespace $namespace
+  --repository $repository
+  --region $region
 )
 
 # add profile if set
-if [[ ! -z "$CODEARTIFACT_PROFILE" ]]; then
-  echo "using profile $CODEARTIFACT_PROFILE"
-  login_args+=(--profile $CODEARTIFACT_PROFILE)
+if [[ ! -z "$profile" ]]; then
+  echo "using profile $profile"
+  login_args+=(--profile $profile)
 fi
 
 # codeartifact login

@@ -4,22 +4,58 @@ set -e
 parent_path=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
 
 source $parent_path/utils
+set_show_help show_tfkey_help
+
+# show help
+function show_tfkey_help {
+  echo "Creates a Terraform state key for the given account, application, baseline, and environment using environment variables in the format:"
+  echo ""
+  echo "aws/<environment>/<account>/application|baseline/<application|baseline>"
+  echo ""
+  echo "Example key: aws/dev/123456789012/application/myapp"
+  echo ""
+  echo "Usage: tfkey [options]"
+  echo ""
+  echo "Environment variables:"
+  echo "  AWS_ACCOUNT         The AWS account number (required)"
+  echo "  TFKEY_ENVIRONMENT   The environment name (required)"
+  echo "  TFKEY_APPLICATION   The application name (required if TFKEY_BASELINE is not set)"
+  echo "  TFKEY_BASELINE      The baseline name (required if TFKEY_APPLICATION is not set)"
+  echo ""
+  echo "Options:"
+  echo "  [-h | --help]       Show this help message"
+  echo ""
+}
+
+# process args
+while [[ $# -gt 0 ]]
+do
+  case $1 in
+    -h | --help)
+      show_help
+      exit 0
+      ;;
+    *)
+      fail_with_help "Invalid option: $1"
+      ;;
+  esac
+done
 
 # verify parameters
 if [[ -z "$AWS_ACCOUNT" ]]; then
-  fail "Error missing AWS_ACCOUNT environment variable!"
-fi
-if [ -z "$TFKEY_APPLICATION" ] && [ -z "$TFKEY_BASELINE" ]; then
-  fail "Error you must specify either TFKEY_APPLICATION or TFKEY_BASELINE environment variable!"
+  fail_with_help "Missing AWS_ACCOUNT environment variable!"
 fi
 if [[ -z "$TFKEY_ENVIRONMENT" ]]; then
-  fail "Error missing TFKEY_ENVIRONMENT environment variable!"
+  fail_with_help "Missing TFKEY_ENVIRONMENT environment variable!"
+fi
+if [ -z "$TFKEY_APPLICATION" ] && [ -z "$TFKEY_BASELINE" ]; then
+  fail_with_help "Missing TFKEY_APPLICATION or TFKEY_BASELINE environment variable!"
 fi
 
-if [[ -z "$TFKEY_APPLICATION" ]]; then
-  keypath="baseline/$TFKEY_BASELINE"
-else
+if [[ -n "$TFKEY_APPLICATION" ]]; then
   keypath="application/$TFKEY_APPLICATION"
+else
+  keypath="baseline/$TFKEY_BASELINE"
 fi
 
 # build state key
