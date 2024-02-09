@@ -5,9 +5,40 @@ parent_path=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
 
 # load vars
 source $parent_path/tfprovidervars
+set_show_help show_tf_help
+
+# show help
+function show_tf_help {
+  echo "Wraps Terraform with defaults from environment variables"
+  echo ""
+  echo "Usage: tf <command> [options]"
+  echo ""
+  echo "See tfprovidervars and tfkey for environment variables"
+  echo ""
+  echo "Dependencies: tfprovidervars, tfkey"
+  echo ""
+  echo "Options:"
+  echo "  [-h | --help]       Show this help message"
+  echo ""
+}
 
 COMMAND=$1
 shift
+
+# process args
+while [[ $# -gt 0 ]]
+do
+  case $1 in
+    -h | --help)
+      show_help
+      exit 0
+      ;;
+    *)
+      PARAMS+=($1)
+      shift
+      ;;
+  esac
+done
 
 PARAMS=$@
 OPTIONS=()

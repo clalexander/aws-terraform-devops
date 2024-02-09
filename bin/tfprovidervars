@@ -5,6 +5,55 @@ parent_path=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
 
 # load utils
 source $parent_path/utils
+set_show_help show_tfproviders_help 
+
+# show help
+function show_help {
+  echo "Sets up remote state and provider variables for Terraform using environment variables"
+  echo ""
+  echo "Usage: tfprovidervars [options]"
+  echo ""
+  echo "Environment variables:"
+  echo "  AWS_ACCESS_KEY_ID             The AWS access key id (required)"
+  echo "  AWS_SECRET_ACCESS_KEY         The AWS secret access key (required)"
+  echo "  AWS_REGION                    The AWS region (required)"
+  echo "  AWS_DEFAULT_REGION            The AWS default region (optional, provides"
+  echo "                                default for AWS_REGION)"
+  echo "  AWS_PROFILE                   The AWS profile to use for access (optional,"
+  echo "                                provides AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY,"
+  echo "                                and AWS_REGION)"
+  echo ""
+  echo "  REMOTE_STATE_ACCESS_KEY       The AWS access key id for the remote state (required)"
+  echo "  REMOTE_STATE_SECRET_KEY       The AWS secret access key for the remote state (required)"
+  echo "  REMOTE_STATE_REGION           The AWS region for the remote state (required)"
+  echo "  REMOTE_STATE_DEFAULT_REGION   The AWS default region for the remote state (optional,"
+  echo "                                provides default for REMOTE_STATE_REGION)"
+  echo "  REMOTE_STATE_PROFILE          The AWS profile to use for the remote state access"
+  echo "                                (optional, provides REMOTE_STATE_ACCESS_KEY,"
+  echo "                                REMOTE_STATE_SECRET_KEY, and REMOTE_STATE_REGION)"
+  echo "  REMOTE_STATE_BUCKET           The S3 bucket for the remote state (required)"
+  echo "  REMOTE_STATE_LOCK_TABLE       The DynamoDB table for the remote state lock (required)"
+  echo ""
+  echo "Dependencies: tfkey"
+  echo ""
+  echo "Options:"
+  echo "  [-h | --help]       Show this help message"
+  echo ""
+}
+
+# process args
+while [[ $# -gt 0 ]]
+do
+  case $1 in
+    -h | --help)
+      show_help
+      exit 0
+      ;;
+    *)
+      fail_with_help "Invalid option: $1"
+      ;;
+  esac
+done
 
 # get access keys and region from profile
 if [[ ! -z "$AWS_PROFILE" ]]; then 
