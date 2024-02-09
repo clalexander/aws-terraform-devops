@@ -3,7 +3,7 @@
 ### TODO
 
 - [X] Add GitHub Actions to README.md
-- [ ] Add scripts to README.md
+- [X] Add scripts to README.md
 - [X] Add Terraform outputs to apply and in own action
 - [ ] Update Terraform actions
   - [ ] Generalize inputs for multiple providers/backends
