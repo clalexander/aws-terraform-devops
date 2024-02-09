@@ -1,13 +1,6 @@
 # AWS Terraform Devops
 
-### TODO
-
-- [X] Add GitHub Actions to README.md
-- [X] Add scripts to README.md
-- [X] Add Terraform outputs to apply and in own action
-- [ ] Update Terraform actions
-  - [ ] Generalize inputs for multiple providers/backends
-  - [ ] Generalize for multiple remote state key patterns
+DevOps scripts and GitHub Actions for AWS Terraform
 
 ## GitHub Actions
 
@@ -131,6 +124,13 @@ Dependencies: tfkey
 Options:
   [-h | --help]       Show this help message
 ```
+
+## To Do
+
+- [ ] Update Terraform actions
+  - [ ] Generalize inputs for multiple providers/backends
+  - [ ] Generalize for multiple remote state key patterns
+
 
 # License
 
