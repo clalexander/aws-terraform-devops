@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.0](https://github.com/clalexander/aws-terraform-devops/compare/v1.1.0...v1.2.0) (2024-02-11)
+
+
+### Features
+
+* bump version for refactor ([0fbac57](https://github.com/clalexander/aws-terraform-devops/commit/0fbac576e56c8e62bed3718e989889b2f1037998))
+
 ## [1.1.0](https://github.com/clalexander/aws-terraform-devops/compare/v1.0.0...v1.1.0) (2024-02-09)
 
 
