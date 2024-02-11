@@ -130,6 +130,7 @@ Options:
 - [ ] Update Terraform actions
   - [ ] Generalize inputs for multiple providers/backends
   - [ ] Generalize for multiple remote state key patterns
+  - [ ] Generalize to allow for any region
 
 
 # License
