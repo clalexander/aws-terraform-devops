@@ -12,8 +12,9 @@ inputs:
     required: false
     default: ./terraform
   aws-account:
-    description: The AWS account to which deploy the resources.
-    required: true
+    description: "[Deprecated] The AWS account to which deploy the resources. (Unused)"
+    required: false
+    default: ""
   aws-region:
     description: The AWS region to which deploy the resources.
     required: true

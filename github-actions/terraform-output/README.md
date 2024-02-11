@@ -20,8 +20,8 @@ The `terraform-output` action is used to get the Terraform output from the state
     # Default: ./terraform
     working-directory: ''
 
-    # The AWS account ID to where the resources will be deployed
-    aws-account: '' (required)
+    # [Deprecated] The AWS account ID to where the resources will be deployed (unused)
+    aws-account: ''
 
     # The AWS region to where the resources will be deployed
     aws-region: '' (required)
