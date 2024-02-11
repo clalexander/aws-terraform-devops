@@ -131,6 +131,7 @@ Options:
   - [ ] Generalize inputs for multiple providers/backends
   - [ ] Generalize for multiple remote state key patterns
   - [ ] Generalize to allow for any region
+  - [ ] Generalize for other authentication methods
 
 
 # License
