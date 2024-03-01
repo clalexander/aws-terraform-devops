@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+### [1.3.5](https://github.com/clalexander/aws-terraform-devops/compare/v1.3.4...v1.3.5) (2024-03-01)
+
+
+### Bug Fixes
+
+* switch back to bash ([4bdfc61](https://github.com/clalexander/aws-terraform-devops/commit/4bdfc61f6a8971461cf3dce59d8562cb4ea8b24e))
+
 ### [1.3.4](https://github.com/clalexander/aws-terraform-devops/compare/v1.3.3...v1.3.4) (2024-03-01)
 
 
