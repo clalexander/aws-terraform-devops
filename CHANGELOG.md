@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.3.0](https://github.com/clalexander/aws-terraform-devops/compare/v1.2.0...v1.3.0) (2024-03-01)
+
+
+### Features
+
+* add terraform-key action ([8c44a3f](https://github.com/clalexander/aws-terraform-devops/commit/8c44a3f9002a0dfa5cc25460ec967fda37092463))
+
 ## [1.2.0](https://github.com/clalexander/aws-terraform-devops/compare/v1.1.0...v1.2.0) (2024-02-11)
 
 
