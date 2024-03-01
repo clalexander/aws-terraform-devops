@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+### [1.3.1](https://github.com/clalexander/aws-terraform-devops/compare/v1.3.0...v1.3.1) (2024-03-01)
+
+
+### Bug Fixes
+
+* add executable permisson to entrypoint.sh ([866570a](https://github.com/clalexander/aws-terraform-devops/commit/866570a71fadad0e71666f51b295855e2204840d))
+
 ## [1.3.0](https://github.com/clalexander/aws-terraform-devops/compare/v1.2.0...v1.3.0) (2024-03-01)
 
 
