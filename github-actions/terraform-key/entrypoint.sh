@@ -1,4 +1,4 @@
-#!/bin/bash -l
+#!/bin/sh -l
 
 function fail {
   echo "Error: $1"
