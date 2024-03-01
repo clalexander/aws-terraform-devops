@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+### [1.3.2](https://github.com/clalexander/aws-terraform-devops/compare/v1.3.1...v1.3.2) (2024-03-01)
+
+
+### Bug Fixes
+
+* change shebang from bash to sh ([d3c8d1f](https://github.com/clalexander/aws-terraform-devops/commit/d3c8d1f151e4ab0e5dd762c2262acea6455221a6))
+
 ### [1.3.1](https://github.com/clalexander/aws-terraform-devops/compare/v1.3.0...v1.3.1) (2024-03-01)
 
 
