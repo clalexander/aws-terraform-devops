@@ -5,6 +5,7 @@ function fail {
   exit 1
 }
 
+
 components=(aws)
 
 if [[ -n "$INPUT_ENVIRONMENT" ]]; then
