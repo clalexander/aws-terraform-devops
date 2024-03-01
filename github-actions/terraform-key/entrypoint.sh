@@ -1,10 +1,9 @@
-#!/bin/sh -l
+#!/bin/bash -l
 
 function fail {
   echo "Error: $1"
   exit 1
 }
-
 
 components=(aws)
 
