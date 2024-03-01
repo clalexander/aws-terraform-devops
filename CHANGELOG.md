@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+### [1.3.4](https://github.com/clalexander/aws-terraform-devops/compare/v1.3.3...v1.3.4) (2024-03-01)
+
+
+### Bug Fixes
+
+* bump version ([f358a4c](https://github.com/clalexander/aws-terraform-devops/commit/f358a4ca2734b09be2c89a50a0db5e05a6efd9c8))
+* change entrypoint.sh permissions again ([b7eb4c3](https://github.com/clalexander/aws-terraform-devops/commit/b7eb4c3758bae3e0f506ad83807defdef65aa04b))
+
 ### [1.3.3](https://github.com/clalexander/aws-terraform-devops/compare/v1.3.2...v1.3.3) (2024-03-01)
 
 
