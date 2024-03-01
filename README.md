@@ -12,6 +12,7 @@ DevOps scripts and GitHub Actions for AWS Terraform
 - [Terraform Destroy](github-actions/terraform-destroy/README.md) - Destroy the Terraform configuration
 - [Terraform Variables Autoload](github-actions/terraform-vars-autoload/README.md) - Automatically add Terraform variables from the GitHub `vars` and `secrets` contexts to the environment
 - [Terraform Output](github-actions/terraform-output/README.md) - Get the Terraform output values
+- [Terraform Key](github-actions/terraform-key/README.md) - Create a standardized Terraform state key
 
 ### Miscellaneous
 

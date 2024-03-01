@@ -1,0 +1,30 @@
+name: Terraform Key
+description: Builds a standardized Terraform remote state key.
+
+inputs:
+  environment:
+    description: The environment.
+    required: false
+  account:
+    description: The account identifier.
+    required: false
+  baseline:
+    description: The baseline component. Conflicts with application and category_name.
+    required: false
+  application:
+    description: The application component. Conflicts with baseline and category_name.
+    required: false
+  category_name:
+    description: The category component name. Use with key. Conflicts with baseline and application.
+    required: false
+  key:
+    description: The specific Terraform remote state key.
+    required: false
+
+outputs:
+  key:
+    description: The Terraform remote state key.
+
+runs:
+  using: docker
+  image: Dockerfile
